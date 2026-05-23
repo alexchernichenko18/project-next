@@ -3,6 +3,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  // Forward Vercel's build-time system env to the client bundle so
+  // instrumentation-client.ts can tag Sentry events with `preview`/`production`
+  // instead of falling back to NODE_ENV (which is `production` on both).
+  env: {
+    NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV,
+  },
 };
 
 export default withSentryConfig(nextConfig, {
